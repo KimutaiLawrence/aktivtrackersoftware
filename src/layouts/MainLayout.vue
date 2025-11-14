@@ -17,7 +17,7 @@
 <script setup>
 import { useLeftSidebarStore } from '@/stores/leftSidebar'
 import Sidebar from '@/components/layouts/navigation/Sidebar.vue'
-import Navbar from '@/components/layouts/navigation/NavBar.vue'
+import Navbar from '@/components/layouts/navigation/Navbar.vue'
 import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { RouterView } from 'vue-router'
