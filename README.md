@@ -1,6 +1,6 @@
 # AktivTracker Frontend
 
-A modern Vue.js 3 frontend application for tracking job applications, scholarships, and activities.
+A simple modern vue js application to assist me in tracking my activities - basically an "Activity log" . Also a way to track scholarship applications, assist in opportunity discovery among many other cool stuff.
 
 ## Features
 

@@ -4,12 +4,12 @@
     <p class="text-sm font-extralight leading-tight">Analytics and insights</p>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-50">
       <h3 class="text-lg font-semibold text-foreground mb-4">Applications Over Time</h3>
       <Chart v-if="lineChartData.labels && lineChartData.labels.length > 0" type="line" :data="lineChartData" :options="chartOptions" class="h-64" />
       <div v-else class="flex items-center justify-center h-64 text-foreground-muted">No data available</div>
-    </div>
+            </div>
 
     <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-50">
       <h3 class="text-lg font-semibold text-foreground mb-4">Success Rate</h3>

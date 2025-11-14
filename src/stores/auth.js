@@ -97,7 +97,7 @@ export const useAuthStore = defineStore('auth', () => {
   async function getGoogleAuthUrl() {
     try {
       const response = await authAPI.getGoogleAuthUrl()
-      return response.data.authorization_url
+      return response.data.auth_url || response.data.authorization_url
     } catch (err) {
       error.value = err.response?.data?.detail || 'Failed to get Google auth URL'
       throw err

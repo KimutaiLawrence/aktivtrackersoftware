@@ -7,82 +7,99 @@
       <div class="flex items-center h-full">
         <SidebarMenuToggle v-if="!isLeftSidebarVisible" />
       </div>
+    </div>
 
-      <div class="flex justify-start items-center gap-2 px-2 py-1 divide-x divide-surface-300 border border-surface-200 rounded-md h-10">
-        <img 
-          src="@/assets/images/logo.svg" 
-          class="object-scale-down h-7 rounded-md" 
-          alt="AktivTracker Logo" 
+    <div class="flex items-center gap-3 h-full">
+      <NavbarUserDropdown>
+        <template #trigger="{ toggle }">
+          <button 
+            type="button"
+            @click="toggle"
+            class="flex items-center justify-between gap-3 px-3 py-2 h-10 border border-gray-200 rounded-md hover:bg-gray-50 hover:border-gray-300 transition-all cursor-pointer min-w-[200px]"
+          >
+            <div class="flex items-center gap-2 flex-1 min-w-0 justify-end">
+              <img 
+                src="@/assets/images/logo.svg" 
+                class="object-scale-down h-5 rounded-md flex-shrink-0" 
+                alt="AktivTracker Logo" 
+              />
+              <div class="flex flex-col items-end font-semibold font-nunito-sans min-w-0 flex-1">
+                <span class="text-xs text-primary-500 leading-tight truncate w-full text-right">AktivTracker</span>
+                <div class="flex items-center gap-1.5 justify-end">
+                  <span class="text-[10px] font-normal font-rubik leading-none text-gray-600">
+                    {{ userFirstName }}
+                  </span>
+                  <span class="text-[9px] font-medium font-rubik leading-none bg-violet-100 text-violet-800 px-1.5 py-0.5 rounded-sm">
+                    {{ userRole }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="inline-flex items-center justify-center w-9 h-9 bg-blue-600 rounded border border-blue-700 flex-shrink-0 shadow-sm">
+              <span class="font-bold text-white uppercase text-sm leading-none">{{ userInitials }}</span>
+            </div>
+          </button>
+        </template>
+      </NavbarUserDropdown>
+
+      <div v-if="isAdmin" class="flex items-center border border-gray-300 rounded-md px-2 py-1">
+        <Dropdown 
+          v-model="selectedRole" 
+          :options="roleOptions" 
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Switch Role"
+          class="!w-36 !h-8 !text-xs"
+          @change="handleRoleSwitch"
         />
-        <div class="flex flex-col items-start font-semibold font-nunito-sans ps-2">
-          <span class="text-sm text-primary-500 leading-tight">AktivTracker</span>
-          <span class="text-[9px] font-normal font-rubik leading-none bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded-md">
-            {{ userFirstName }}
-          </span>
-        </div>
       </div>
-    </div>
-
-    <div class="flex items-center justify-between flex-1 h-full">
-      <div class="hidden md:flex justify-center h-full items-center">
-        <Breadcrumb :model="links" class="!py-0 !pl-0.5">
-          <template #item="{ item }">
-            <RouterLink :to="item.route" class="cursor-pointer">
-              <span class="text-sm">{{ item.title }}</span>
-            </RouterLink>
-          </template>
-          <template #separator> | </template>
-        </Breadcrumb>
-      </div>
-    </div>
-
-    <div class="flex items-center h-full">
-      <NavbarUserDropdown />
     </div>
   </nav>
 </template>
 
 <script setup>
-import { Breadcrumb } from 'primevue'
+import { Dropdown } from 'primevue'
 import { useLeftSidebarStore } from '@/stores/leftSidebar'
 import SidebarMenuToggle from '@/components/buttons/SidebarMenuToggle.vue'
 import NavbarUserDropdown from '@/components/layouts/navigation/NavbarUserDropdown.vue'
 import { storeToRefs } from 'pinia'
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, computed, watch } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 const leftSidebarVisible = useLeftSidebarStore()
 const { isLeftSidebarVisible } = storeToRefs(leftSidebarVisible)
 const authStore = useAuthStore()
-const { user } = storeToRefs(authStore)
+const { user, isAdmin } = storeToRefs(authStore)
 
-const route = useRoute()
+const userFirstName = computed(() => user.value?.full_name?.split(' ')[0] || user.value?.username || 'User')
+const userRole = computed(() => user.value?.role || 'user')
+const userInitials = computed(() => {
+  const firstName = userFirstName.value
+  const lastName = user.value?.full_name?.split(' ').slice(1).join(' ') || ''
+  const first = firstName.charAt(0).toUpperCase()
+  const last = lastName.charAt(0).toUpperCase() || firstName.charAt(0).toUpperCase()
+  return first + last
+})
 
-const userFirstName = ref(user.value?.full_name?.split(' ')[0] || user.value?.username || 'User')
+const roleOptions = [
+  { label: 'Admin', value: 'admin' },
+  { label: 'Premium User', value: 'premium_user' },
+  { label: 'User', value: 'user' }
+]
 
-function setLinks() {
-  const segments = route.fullPath.split('/').filter(item => item !== '')
-  const breadcrumbs = segments.map((item, index) => {
-    const str = item.replace(/-/g, ' ')
-    const title = str
-      .split(' ')
-      .filter(word => !/[0-9]/.test(word))
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ')
-    return {
-      title,
-      route: `/${segments.slice(0, index + 1).join('/')}`,
-    }
-  })
-  return [...breadcrumbs]
+const selectedRole = ref(userRole.value)
+
+const handleRoleSwitch = () => {
+  if (selectedRole.value && selectedRole.value !== userRole.value) {
+    localStorage.setItem('viewAsRole', selectedRole.value)
+    window.location.reload()
+  }
 }
 
-const links = ref([])
-
-watch(() => route.fullPath, (val) => {
-  if (val) {
-    links.value = setLinks()
+watch(() => user.value, () => {
+  if (user.value) {
+    const storedRole = localStorage.getItem('viewAsRole')
+    selectedRole.value = storedRole || userRole.value
   }
 }, { immediate: true })
 </script>

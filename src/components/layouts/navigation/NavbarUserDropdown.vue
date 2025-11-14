@@ -1,16 +1,20 @@
 <template>
   <div>
-    <Button 
-      type="button" 
-      @click="toggle" 
-      aria-haspopup="true" 
-      aria-controls="overlay_menu"
-      class="bg-transparent p-0 !border-surface-300 hover:!bg-gray-100 shadow-sm rounded-full hover:shadow-md hover:!border-surface-500 h-10 w-10 flex items-center justify-center"
-    >
-      <div class="inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-primary-500 rounded-full">
-        <span class="font-medium text-white uppercase text-sm">{{ userInitials }}</span>
-      </div>
-    </Button>
+    <div class="flex items-center gap-2">
+      <slot name="trigger" :toggle="toggle">
+        <Button 
+          type="button" 
+          @click="toggle" 
+          aria-haspopup="true" 
+          aria-controls="overlay_menu"
+          class="bg-transparent p-0 !border-surface-300 hover:!bg-gray-100 shadow-sm rounded-full hover:shadow-md hover:!border-surface-500 h-10 w-10 flex items-center justify-center"
+        >
+          <div class="inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-primary-500 rounded-full">
+            <span class="font-medium text-white uppercase text-sm">{{ userInitials }}</span>
+          </div>
+        </Button>
+      </slot>
+    </div>
 
     <Menu 
       ref="menu" 
