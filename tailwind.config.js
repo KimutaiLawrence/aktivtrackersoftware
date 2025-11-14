@@ -9,6 +9,8 @@ export default {
     extend: {
       fontFamily: {
         sans: [
+          '"Geist"',
+          '"Geist Sans"',
           '"SF Pro Display"',
           '"SF Pro Text"',
           '-apple-system',

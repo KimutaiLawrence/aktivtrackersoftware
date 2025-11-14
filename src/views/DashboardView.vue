@@ -6,60 +6,35 @@
       <p class="page-description">Overview of your applications and activities</p>
     </div>
 
-    <!-- Stats Cards -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon jobs">
-          <i class="pi pi-briefcase"></i>
-        </div>
-        <div class="stat-content">
-          <h3 class="stat-number">
-            <span v-if="loading" class="loading-skeleton"></span>
-            <span v-else>{{ stats.jobs }}</span>
-          </h3>
-          <p class="stat-label">Job Applications</p>
+    <!-- Stats Card -->
+    <div class="bg-gray-50 rounded-lg mt-1 shadow-lg mb-4">
+      <div class="relative">
+        <div class="absolute inset-0 h-1/2 bg-gray-50"></div>
+        <div class="relative mx-auto px-0 sm:px-0 lg:px-0">
+          <div class="mx-auto">
+            <dl class="rounded-lg text-white font-rubik shadow-lg sm:grid sm:grid-cols-4"
+              style="background: linear-gradient(90deg, #065f46 0%, #10b981 100%);">
+              <template v-if="loading">
+                <!-- Loading state -->
+                <div class="flex flex-col border-b border-gray-100 p-4 text-center sm:border-0 sm:border-r"
+                  v-for="n in 4" :key="n">
+                  <dt class="mt-2 text-sm font-light animate-pulse bg-white/30 h-4 w-24 mx-auto rounded"></dt>
+                  <dd class="text-base font-bold animate-pulse bg-white/30 h-6 w-16 mx-auto rounded mt-2"></dd>
+                </div>
+              </template>
+              <template v-else>
+                <!-- Data loaded state -->
+                <div class="flex flex-col border-b border-gray-100/30 p-4 text-center sm:border-0 sm:border-r"
+                  v-for="(value, key, index) in cardValues" :key="index">
+                  <dt class="mt-2 text-sm font-light">{{ key }}</dt>
+                  <dd class="text-base font-bold">{{ value }}</dd>
+                </div>
+              </template>
+            </dl>
+          </div>
         </div>
       </div>
-
-      <div class="stat-card">
-        <div class="stat-icon scholarships">
-          <i class="pi pi-graduation-cap"></i>
-              </div>
-        <div class="stat-content">
-          <h3 class="stat-number">
-            <span v-if="loading" class="loading-skeleton"></span>
-            <span v-else>{{ stats.scholarships }}</span>
-          </h3>
-          <p class="stat-label">Scholarship Applications</p>
-              </div>
-            </div>
-      
-      <div class="stat-card">
-        <div class="stat-icon activities">
-          <i class="pi pi-calendar"></i>
-              </div>
-        <div class="stat-content">
-          <h3 class="stat-number">
-            <span v-if="loading" class="loading-skeleton"></span>
-            <span v-else>{{ stats.activities }}</span>
-          </h3>
-          <p class="stat-label">Activities</p>
-              </div>
-            </div>
-      
-      <div class="stat-card">
-        <div class="stat-icon opportunities">
-          <i class="pi pi-star"></i>
-        </div>
-        <div class="stat-content">
-          <h3 class="stat-number">
-            <span v-if="loading" class="loading-skeleton"></span>
-            <span v-else>{{ stats.opportunities }}</span>
-          </h3>
-          <p class="stat-label">Opportunities</p>
-              </div>
-              </div>
-            </div>
+    </div>
 
     <!-- Charts Section -->
     <div class="charts-grid">
@@ -162,6 +137,16 @@ const stats = ref({
   scholarships: 0,
   activities: 0,
   opportunities: 0
+})
+
+// Card values computed from stats
+const cardValues = computed(() => {
+  return {
+    'Job Applications': stats.value.jobs.toLocaleString(),
+    'Scholarship Applications': stats.value.scholarships.toLocaleString(),
+    'Activities': stats.value.activities.toLocaleString(),
+    'Opportunities': stats.value.opportunities.toLocaleString()
+  }
 })
 
 const recentActivity = ref([])
@@ -519,72 +504,6 @@ onMounted(() => {
   font-size: 1rem;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.stat-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.stat-icon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: white;
-}
-
-.stat-icon.jobs {
-  background: linear-gradient(135deg, #3B82F6, #1D4ED8);
-}
-
-.stat-icon.scholarships {
-  background: linear-gradient(135deg, #10B981, #059669);
-}
-
-.stat-icon.activities {
-  background: linear-gradient(135deg, #F59E0B, #D97706);
-}
-
-.stat-icon.opportunities {
-  background: linear-gradient(135deg, #8B5CF6, #7C3AED);
-}
-
-.stat-content {
-  flex: 1;
-}
-
-.stat-number {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 0.25rem 0;
-}
-
-.stat-label {
-  color: #6b7280;
-  margin: 0;
-  font-size: 0.875rem;
-}
 
 .charts-grid {
   display: grid;

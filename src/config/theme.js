@@ -1,9 +1,11 @@
 // Theme configuration for centralized styling
 export const themeConfig = {
-  // Typography - Apple SF Pro Fonts
+  // Typography - Geist with SF Pro fallback
   typography: {
     fontFamily: {
       sans: [
+        '"Geist"',
+        '"Geist Sans"',
         '"SF Pro Display"',
         '"SF Pro Text"',
         '-apple-system',

@@ -116,7 +116,7 @@ const router = createRouter({
 })
 
 // Navigation guards
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   const isAuthenticated = authStore.isAuthenticated
 
@@ -125,6 +125,19 @@ router.beforeEach((to, from, next) => {
   } else if (to.meta.requiresGuest && isAuthenticated) {
     next('/dashboard')
   } else {
+    // Load preferences if authenticated
+    if (isAuthenticated && to.meta.requiresAuth) {
+      try {
+        const { usePreferencesStore } = await import('../stores/preferences')
+        const preferencesStore = usePreferencesStore()
+        if (!preferencesStore.fontFamily) {
+          await preferencesStore.loadPreferences()
+          preferencesStore.applyFontFamily()
+        }
+      } catch (error) {
+        console.error('Failed to load preferences:', error)
+      }
+    }
     next()
   }
 })

@@ -13,12 +13,19 @@ import 'primeicons/primeicons.css'
 
 import App from './App.vue'
 import router from './router'
+import { usePreferencesStore } from './stores/preferences'
 
 const app = createApp(App)
 const pinia = createPinia()
 
 app.use(pinia)
 app.use(router)
+
+// Load user preferences on app start
+const preferencesStore = usePreferencesStore()
+preferencesStore.loadPreferences().then(() => {
+  preferencesStore.applyFontFamily()
+})
 app.use(PrimeVue, {
   theme: {
     preset: Aura,
