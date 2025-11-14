@@ -14,5 +14,5 @@ export const analyticsAPI = {
   // Get productivity metrics
   getProductivityMetrics(params = {}) {
     return api.get('/api/v1/analytics/productivity', { params })
-  },
+  }
 }

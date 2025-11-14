@@ -1,7 +1,10 @@
 <template>
-  <MainLayout>
-    <div class="space-y-6">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Profile Settings</h1>
+  <div class="rounded-md bg-white shadow-sm px-2 pb-0.5 border border-gray-50 mb-2">
+    <h1 class="text-base font-semibold text-primary-500 capitalize">Profile Settings</h1>
+    <p class="text-sm font-extralight leading-tight">Manage your profile information</p>
+  </div>
+
+  <div class="space-y-6">
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card>
@@ -15,8 +18,8 @@
                 class="bg-primary-500 text-white"
               />
               <div class="text-center">
-                <h3 class="text-xl font-semibold">{{ authStore.user?.full_name || authStore.user?.username }}</h3>
-                <p class="text-gray-600">{{ authStore.user?.email }}</p>
+                <h3 class="text-xl font-semibold text-foreground">{{ authStore.user?.full_name || authStore.user?.username }}</h3>
+                <p class="text-foreground-muted">{{ authStore.user?.email }}</p>
                 <Tag :value="authStore.user?.role" class="mt-2" />
               </div>
               <Button label="Upload Photo" icon="pi pi-upload" outlined class="w-full" />
@@ -91,14 +94,15 @@
         </template>
       </Card>
     </div>
-  </MainLayout>
+
+  <Toast />
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
 import { useToast } from 'primevue/usetoast'
-import { useAuthStore } from '../stores/auth'
-import MainLayout from '../layouts/MainLayout.vue'
+import { useAuthStore } from '@/stores/auth'
+import { usersAPI } from '@/api/users'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
@@ -106,6 +110,7 @@ import Textarea from 'primevue/textarea'
 import Password from 'primevue/password'
 import Avatar from 'primevue/avatar'
 import Tag from 'primevue/tag'
+import Toast from 'primevue/toast'
 
 const toast = useToast()
 const authStore = useAuthStore()
@@ -124,9 +129,26 @@ const passwordData = reactive({
   confirm: ''
 })
 
-const saveProfile = () => {
-  toast.add({ severity: 'success', summary: 'Success', detail: 'Profile updated', life: 3000 })
+const saveProfile = async () => {
+  try {
+    const response = await usersAPI.updateCurrentUser(profileData)
+    authStore.user = response.data
+    toast.add({ severity: 'success', summary: 'Success', detail: 'Profile updated', life: 3000 })
+  } catch (error) {
+    toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to update profile', life: 3000 })
+  }
 }
+
+onMounted(async () => {
+  await authStore.fetchCurrentUser()
+  if (authStore.user) {
+    profileData.full_name = authStore.user.full_name || ''
+    profileData.username = authStore.user.username || ''
+    profileData.email = authStore.user.email || ''
+    profileData.phone = authStore.user.phone || ''
+    profileData.bio = authStore.user.bio || ''
+  }
+})
 
 const changePassword = async () => {
   if (passwordData.new !== passwordData.confirm) {
@@ -144,3 +166,4 @@ const changePassword = async () => {
   }
 }
 </script>
+

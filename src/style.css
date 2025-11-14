@@ -1,5 +1,203 @@
 @import "tailwindcss";
 
+/* SF Pro Display and SF Pro Text Font Faces */
+/* If you have the SF Pro font files, place them in src/assets/fonts/ and uncomment these */
+/*
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('./assets/fonts/SF-Pro-Display-Regular.woff2') format('woff2'),
+       url('./assets/fonts/SF-Pro-Display-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('./assets/fonts/SF-Pro-Display-Medium.woff2') format('woff2'),
+       url('./assets/fonts/SF-Pro-Display-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('./assets/fonts/SF-Pro-Display-Semibold.woff2') format('woff2'),
+       url('./assets/fonts/SF-Pro-Display-Semibold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('./assets/fonts/SF-Pro-Display-Bold.woff2') format('woff2'),
+       url('./assets/fonts/SF-Pro-Display-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url('./assets/fonts/SF-Pro-Text-Regular.woff2') format('woff2'),
+       url('./assets/fonts/SF-Pro-Text-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url('./assets/fonts/SF-Pro-Text-Medium.woff2') format('woff2'),
+       url('./assets/fonts/SF-Pro-Text-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url('./assets/fonts/SF-Pro-Text-Semibold.woff2') format('woff2'),
+       url('./assets/fonts/SF-Pro-Text-Semibold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+*/
+
+/* Apple Typography - SF Pro Display and SF Pro Text */
+:root {
+  font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Theme Color Variables */
+:root {
+  /* Text Colors */
+  --foreground: #020817;
+  --foreground-muted: #647488;
+  
+  /* Background Colors */
+  --background: #ffffff;
+  --background-muted: #f8fafc;
+  
+  /* Border Colors */
+  --border: #e2e8f0;
+  --border-muted: #cbd5e1;
+  
+  /* Primary Colors - Apple Blue */
+  --primary: #0071E3;
+  --primary-foreground: #ffffff;
+  --primary-hover: #005bb5;
+  --primary-dark: #004588;
+  
+  /* Card Colors */
+  --card: #ffffff;
+  --card-foreground: #020817;
+  
+  /* Input Colors */
+  --input: #e2e8f0;
+  
+  /* Ring (Focus) Colors */
+  --ring: #0071E3;
+  --ring-offset: #ffffff;
+  
+  /* Accent Colors */
+  --accent: #f1f5f9;
+  --accent-foreground: #020817;
+  
+  /* Muted Colors */
+  --muted: #f8fafc;
+  --muted-foreground: #647488;
+  
+  /* Legacy PrimeVue Variables */
+  --p-primary-50: #e6f2ff;
+  --p-primary-100: #b3d9ff;
+  --p-primary-200: #80c0ff;
+  --p-primary-300: #4da7ff;
+  --p-primary-400: #1a8eff;
+  --p-primary-500: #0071E3;
+  --p-primary-600: #005bb5;
+  --p-primary-700: #004588;
+  --p-primary-800: #00305a;
+  --p-primary-900: #001a2d;
+  --p-surface-0: #ffffff;
+  --p-surface-50: #f8fafc;
+  --p-surface-100: #f1f5f9;
+  --p-surface-200: #e2e8f0;
+  --p-surface-300: #cbd5e1;
+  --p-surface-400: #94a3b8;
+  --p-surface-500: #64748b;
+  --p-surface-600: #475569;
+  --p-surface-700: #334155;
+  --p-surface-800: #1e293b;
+  --p-surface-900: #0f172a;
+  --p-surface-950: #020617;
+  --p-content-border-radius: 6px;
+  
+  /* Text Color Variables */
+  --p-text-color: var(--foreground);
+  --p-text-hover-color: var(--foreground);
+  --p-text-muted-color: var(--foreground-muted);
+  --p-text-hover-muted-color: var(--foreground-muted);
+}
+
+/* Global Text Color Classes */
+.text-foreground {
+  color: var(--foreground);
+}
+
+.text-foreground-muted {
+  color: var(--foreground-muted);
+}
+
+/* DataTable Global Styles - Smaller Text, Header Background, Alternating Rows, Rounded Corners */
+.p-datatable {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  font-size: 0.75rem;
+  padding: 0.5rem;
+  background-color: #f1f5f9;
+  color: #020817;
+  font-weight: 600;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  font-size: 0.75rem;
+  padding: 0.5rem;
+}
+
+.p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.p-datatable .p-datatable-tbody > tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background-color: #e6f2ff;
+}
+
+.p-datatable .p-datatable-tbody > tr > td .p-button {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.p-datatable .p-tag {
+  font-size: 0.7rem;
+  padding: 0.125rem 0.5rem;
+}
+
+/* Global styling configuration */
 /* Custom scrollbar */
 .scrollbar-thin {
   scrollbar-width: thin;

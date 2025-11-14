@@ -5,6 +5,8 @@ import Aura from '@primevue/themes/aura'
 import ToastService from 'primevue/toastservice'
 import ConfirmationService from 'primevue/confirmationservice'
 import Tooltip from 'primevue/tooltip'
+import Ripple from 'primevue/ripple'
+import StyleClass from 'primevue/styleclass'
 
 import './style.css'
 import 'primeicons/primeicons.css'
@@ -25,10 +27,13 @@ app.use(PrimeVue, {
       darkModeSelector: '.dark-mode',
       cssLayer: false
     }
-  }
+  },
+  ripple: true
 })
 app.use(ToastService)
 app.use(ConfirmationService)
 app.directive('tooltip', Tooltip)
+app.directive('ripple', Ripple)
+app.directive('styleclass', StyleClass)
 
 app.mount('#app')

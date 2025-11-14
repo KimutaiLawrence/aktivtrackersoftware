@@ -6,6 +6,11 @@ export const usersAPI = {
     return api.get('/api/v1/users/me')
   },
 
+  // Update current user profile
+  updateCurrentUser(data) {
+    return api.put('/api/v1/users/me', data)
+  },
+
   // Upload profile image
   uploadProfileImage(file) {
     const formData = new FormData()

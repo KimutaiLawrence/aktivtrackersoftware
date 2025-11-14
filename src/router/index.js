@@ -6,97 +6,111 @@ const router = createRouter({
   routes: [
     // Public routes
     {
-      path: '/',
-      redirect: '/login'
-    },
-    {
       path: '/login',
       name: 'login',
-      component: () => import('../views/Login.vue'),
+      component: () => import('../views/authentication/LoginView.vue'),
       meta: { requiresGuest: true }
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('../views/Register.vue'),
+      component: () => import('../views/authentication/RegisterView.vue'),
       meta: { requiresGuest: true }
     },
     {
       path: '/forgot-password',
       name: 'forgot-password',
-      component: () => import('../views/ForgotPassword.vue'),
+      component: () => import('../views/authentication/ForgotPasswordView.vue'),
       meta: { requiresGuest: true }
     },
     {
       path: '/reset-password',
       name: 'reset-password',
-      component: () => import('../views/ResetPassword.vue'),
+      component: () => import('../views/authentication/ResetPasswordView.vue'),
       meta: { requiresGuest: true }
     },
     {
       path: '/verify-email',
       name: 'verify-email',
-      component: () => import('../views/VerifyEmail.vue')
+      component: () => import('../views/authentication/VerifyEmailView.vue')
     },
     {
       path: '/auth/google/callback',
       name: 'google-callback',
-      component: () => import('../views/GoogleCallback.vue')
+      component: () => import('../views/authentication/GoogleCallbackView.vue')
     },
-    // Protected routes
+    // Protected routes with MainLayout
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('../views/Dashboard.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/jobs',
-      name: 'jobs',
-      component: () => import('../views/Jobs.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/scholarships',
-      name: 'scholarships',
-      component: () => import('../views/Scholarships.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/activities',
-      name: 'activities',
-      component: () => import('../views/Activities.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/opportunities',
-      name: 'opportunities',
-      component: () => import('../views/Opportunities.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/documents',
-      name: 'documents',
-      component: () => import('../views/Documents.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/analytics',
-      name: 'analytics',
-      component: () => import('../views/Analytics.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: () => import('../views/Profile.vue'),
-      meta: { requiresAuth: true }
+      path: '/',
+      component: () => import('../layouts/MainLayout.vue'),
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '',
+          redirect: 'dashboard'
+        },
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: () => import('../views/DashboardView.vue')
+        },
+        {
+          path: 'jobs',
+          name: 'jobs',
+          component: () => import('../views/jobsManagement/JobsView.vue')
+        },
+        {
+          path: 'jobs/:jobId',
+          name: 'view-job',
+          component: () => import('../views/jobsManagement/ViewJob.vue')
+        },
+        {
+          path: 'jobs/:jobId/edit',
+          name: 'edit-job',
+          component: () => import('../views/jobsManagement/EditJob.vue')
+        },
+        {
+          path: 'scholarships',
+          name: 'scholarships',
+          component: () => import('../views/scholarshipsManagement/ScholarshipsView.vue')
+        },
+        {
+          path: 'activities',
+          name: 'activities',
+          component: () => import('../views/activitiesManagement/ActivitiesView.vue')
+        },
+        {
+          path: 'opportunities',
+          name: 'opportunities',
+          component: () => import('../views/opportunitiesManagement/OpportunitiesView.vue')
+        },
+        {
+          path: 'documents',
+          name: 'documents',
+          component: () => import('../views/documentsManagement/DocumentsView.vue')
+        },
+        {
+          path: 'analytics',
+          name: 'analytics',
+          component: () => import('../views/AnalyticsView.vue')
+        },
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('../views/ProfileView.vue')
+        },
+        {
+          path: 'settings',
+          name: 'settings',
+          component: () => import('../views/SettingsView.vue')
+        }
+      ]
     },
     // 404 Not Found
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
-      component: () => import('../views/NotFound.vue')
+      component: () => import('../views/NotFoundView.vue')
     }
   ]
 })

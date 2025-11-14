@@ -21,7 +21,6 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loading.value = true
       error.value = null
-      console.log('Auth store login called with:', credentials) // Debug log
       const response = await authAPI.login(credentials)
 
       const { access_token, refresh_token } = response.data
@@ -48,7 +47,6 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loading.value = true
       error.value = null
-      console.log('Auth store register called with:', userData) // Debug log
       const response = await authAPI.register(userData)
 
       // After registration, login automatically
@@ -78,6 +76,10 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('user')
 
     router.push('/login')
+  }
+
+  async function handleLogout() {
+    await logout()
   }
 
   async function fetchCurrentUser() {
@@ -132,7 +134,6 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loading.value = true
       error.value = null
-      console.log('Auth store forgotPassword called with:', email) // Debug log
       const response = await authAPI.forgotPassword(email)
       return response.data
     } catch (err) {
@@ -147,7 +148,6 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loading.value = true
       error.value = null
-      console.log('Auth store resetPassword called with:', data) // Debug log
       const response = await authAPI.resetPassword(data)
       return response.data
     } catch (err) {
@@ -162,7 +162,6 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loading.value = true
       error.value = null
-      console.log('Auth store changePassword called with:', data) // Debug log
       const response = await authAPI.changePassword(data)
       return response.data
     } catch (err) {
@@ -177,7 +176,6 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loading.value = true
       error.value = null
-      console.log('Auth store verifyEmail called with:', token) // Debug log
       const response = await authAPI.verifyEmail(token)
       return response.data
     } catch (err) {
@@ -224,5 +222,6 @@ export const useAuthStore = defineStore('auth', () => {
     changePassword,
     verifyEmail,
     initializeAuth,
+    handleLogout,
   }
 })
