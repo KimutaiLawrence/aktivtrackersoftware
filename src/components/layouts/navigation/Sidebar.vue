@@ -169,6 +169,7 @@ const menuItems = [
   { id: 'activities', label: 'Activities', route: '/activities', icon: 'pi pi-calendar' },
   { id: 'opportunities', label: 'Opportunities', route: '/opportunities', icon: 'pi pi-star' },
   { id: 'documents', label: 'Documents', route: '/documents', icon: 'pi pi-file' },
+  { id: 'cv-builder', label: 'CV Builder', route: '/cv-builder', icon: 'pi pi-id-card' },
   { id: 'analytics', label: 'Analytics', route: '/analytics', icon: 'pi pi-chart-bar' }
 ]
 

@@ -112,6 +112,14 @@
             </div>
             <div class="flex gap-2">
               <Button 
+                icon="pi pi-id-card" 
+                label="Tailor my CV" 
+                @click="tailorCv"
+                size="small"
+                severity="secondary"
+                v-tooltip.top="'Open RevampYourCV with this job and save the CV back here'"
+              />
+              <Button 
                 icon="pi pi-pencil" 
                 label="Edit" 
                 @click="router.push({ name: 'edit-job', params: { jobId: job.id } })"
@@ -169,6 +177,12 @@ const fetchJob = async () => {
   } finally {
     loading.value = false
   }
+}
+
+// Opens synchronously (so popup blockers allow it); the new tab mints the sign-in link
+const tailorCv = () => {
+  const { href } = router.resolve({ name: 'cv-builder', query: { job: job.value.id } })
+  window.open(href, '_blank', 'noopener')
 }
 
 const deleteJob = () => {
