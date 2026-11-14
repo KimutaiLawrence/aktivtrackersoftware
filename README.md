@@ -45,7 +45,7 @@ A simple modern vue js application to assist me in tracking my activities - basi
 4. **Configure environment variables**
    ```bash
    # .env.local
-   VITE_API_BASE_URL=https://aktivtrackerbackend.onrender.com
+   VITE_API_BASE_URL=https://aktivtrackerbackend.vercel.app
    ```
 
 5. **Start development server**
@@ -67,7 +67,7 @@ A simple modern vue js application to assist me in tracking my activities - basi
 
 2. **Environment Variables**
    ```bash
-   VITE_API_BASE_URL=https://aktivtrackerbackend.onrender.com
+   VITE_API_BASE_URL=https://aktivtrackerbackend.vercel.app
    ```
 
 3. **Deploy**
@@ -121,7 +121,7 @@ src/
 
 The frontend integrates with the AktivTracker backend API:
 
-- **Base URL**: `https://aktivtrackerbackend.onrender.com`
+- **Base URL**: `https://aktivtrackerbackend.vercel.app`
 - **Authentication**: JWT token-based
 - **CORS**: Configured for cross-origin requests
 
