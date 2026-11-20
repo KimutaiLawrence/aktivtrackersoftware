@@ -25,6 +25,7 @@
         <Tab>Overview</Tab>
         <Tab>Details</Tab>
         <Tab>Additional Info</Tab>
+        <Tab>Steps</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
@@ -136,6 +137,26 @@
             </div>
           </div>
         </TabPanel>
+        <TabPanel>
+          <div class="p-6">
+            <div class="mb-6">
+              <label class="text-sm font-medium text-foreground-muted">Where the job link came from</label>
+              <a v-if="timeline.source_url || job.job_url" :href="timeline.source_url || job.job_url" target="_blank" class="text-sm text-primary-500 hover:underline mt-1 block break-all">{{ timeline.source_url || job.job_url }}</a>
+              <p v-else class="text-sm text-foreground mt-1">No link saved</p>
+              <p v-if="job.source" class="text-xs text-foreground-muted mt-1">Source: {{ job.source }}</p>
+            </div>
+            <h4 class="text-sm font-semibold text-foreground mb-3">Steps taken</h4>
+            <p v-if="!timeline.events.length" class="text-sm text-foreground-muted">No steps recorded yet.</p>
+            <ol v-else class="space-y-4">
+              <li v-for="e in timeline.events" :key="e.id" class="border-l-2 border-primary-500 pl-4">
+                <p class="text-sm font-medium text-foreground">{{ e.title }}</p>
+                <p v-if="e.notes" class="text-sm text-foreground mt-1 whitespace-pre-wrap">{{ e.notes }}</p>
+                <a v-if="e.additional_data && e.additional_data.startsWith('http')" :href="e.additional_data" target="_blank" class="text-xs text-primary-500 hover:underline break-all">{{ e.additional_data }}</a>
+                <p class="text-xs text-foreground-muted mt-1">{{ new Date(e.created_at).toLocaleString() }} · {{ e.changed_by }}</p>
+              </li>
+            </ol>
+          </div>
+        </TabPanel>
       </TabPanels>
     </Tabs>
   </div>
@@ -160,12 +181,19 @@ const confirm = useConfirm()
 const job = ref(null)
 const loading = ref(false)
 const activeTab = ref(0)
+const timeline = ref({ source_url: null, events: [] })
 
 const fetchJob = async () => {
   try {
     loading.value = true
     const response = await jobsAPI.getJobApplication(route.params.jobId)
     job.value = response.data
+    try {
+      const t = await jobsAPI.getJobTimeline(route.params.jobId)
+      timeline.value = t.data
+    } catch (e) {
+      timeline.value = { source_url: null, events: [] }
+    }
   } catch (error) {
     toast.add({
       severity: 'error',

@@ -31,6 +31,11 @@ export const jobsAPI = {
     return api.patch(`/api/v1/jobs/${applicationId}/status`, { status })
   },
 
+  // Get steps taken on an application
+  getJobTimeline(applicationId) {
+    return api.get(`/api/v1/jobs/${applicationId}/timeline`)
+  },
+
   // Get job application stats
   getJobApplicationStats() {
     return api.get('/api/v1/jobs/stats/summary')
